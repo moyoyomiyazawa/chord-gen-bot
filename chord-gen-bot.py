@@ -4,9 +4,9 @@ import re
 import tweepy
 import config
 import genchord
-import genvideo
 import videoupload
 import image_gen
+import movie_gen
 
 
 CONSUMER_KEY = config.CONSUMER_KEY
@@ -47,11 +47,9 @@ for mention in status:
         image_gen.chord_text_to_image(video_image_text)
 
         # video を作成
-        genvideo.concat_image_and_wav(image_finename, wav_filename)
+        movie_gen.create_movie(wav_filename, image_finename)
 
         reply_text = f"@{mention.user.screen_name}"
-
-        # media = api.media_upload('output.mp4')
         media_id = videoupload.upload()
         time.sleep(10)
 
