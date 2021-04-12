@@ -6,6 +6,7 @@ import config
 import genchord
 import genvideo
 import videoupload
+import image_gen
 
 
 CONSUMER_KEY = config.CONSUMER_KEY
@@ -20,7 +21,7 @@ api = tweepy.API(auth ,wait_on_rate_limit = True)
 status = api.mentions_timeline()
 
 
-image_finename = 'bgimage.png'
+image_finename = 'chord_image.png'
 wav_filename = 'chord_progression.wav'
 
 
@@ -37,6 +38,13 @@ for mention in status:
       try:
         # コード進行からwavを生成
         genchord.generate_chord_from_text(mention.text, wav_filename)
+
+        # コードテキストから動画用の画像を生成
+        video_image_text = ''
+        rows = re.findall('\|(.*)\|', mention.text)
+        for row in rows:
+          video_image_text += f'|{row}|\n'
+        image_gen.chord_text_to_image(video_image_text)
 
         # video を作成
         genvideo.concat_image_and_wav(image_finename, wav_filename)
