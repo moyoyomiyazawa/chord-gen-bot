@@ -18,4 +18,3 @@ def create_movie(imagepath, audiopath):
     preset='ultrafast'
   )
 
-# create_movie('chord_image.png', 'chord_progression.wav')

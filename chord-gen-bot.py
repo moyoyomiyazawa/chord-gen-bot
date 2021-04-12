@@ -20,9 +20,8 @@ api = tweepy.API(auth ,wait_on_rate_limit = True)
 
 status = api.mentions_timeline()
 
-
-image_finename = 'chord_image.png'
-wav_filename = 'chord_progression.wav'
+image_finename = './chord_image.png'
+audio_filename = './chord_progression.wav'
 
 
 for mention in status:
@@ -37,17 +36,19 @@ for mention in status:
     if re.search('\|.*\|', mention.text):
       try:
         # コード進行からwavを生成
-        genchord.generate_chord_from_text(mention.text, wav_filename)
+        genchord.generate_chord_from_text(mention.text, audio_filename)
 
         # コードテキストから動画用の画像を生成
         video_image_text = ''
         rows = re.findall('\|(.*)\|', mention.text)
+
         for row in rows:
           video_image_text += f'|{row}|\n'
+        print(video_image_text)
         image_gen.chord_text_to_image(video_image_text)
 
         # video を作成
-        movie_gen.create_movie(wav_filename, image_finename)
+        movie_gen.create_movie(image_finename, audio_filename)
 
         reply_text = f"@{mention.user.screen_name}"
         media_id = videoupload.upload()
