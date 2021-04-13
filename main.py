@@ -1,12 +1,7 @@
-import time
-import os
-import re
+import datetime, time, os, re
 import tweepy
 import config
-import genchord
-import videoupload
-import image_gen
-import movie_gen
+from lib import genchordwave, image_gen, movie_gen, videoupload
 
 
 CONSUMER_KEY = config.CONSUMER_KEY
@@ -20,25 +15,27 @@ api = tweepy.API(auth ,wait_on_rate_limit = True)
 
 status = api.mentions_timeline()
 
-DIR = os.path.dirname(os.path.abspath(__file__))
-imagepath = os.path.join(DIR, 'chord_image.png')
-audiopath = os.path.join(DIR, 'chord_progression.wav')
-outputpath = os.path.join(DIR, 'output.mp4')
+basedir = os.path.dirname(os.path.abspath(__file__))
+imagepath = os.path.join(basedir, 'chord_image.png')
+audiopath = os.path.join(basedir, 'chord_progression.wav')
+outputpath = os.path.join(basedir, 'output.mp4')
 
 
 for mention in status:
   mention_time = mention.created_at.timestamp()
   now_time = time.time()
 
-  # mention_timeが本初子午線の時刻で取得されるため 9時間(32400秒) + 1分
-  reply_time = 32400 + 60
+  print(datetime.datetime.fromtimestamp(now_time), datetime.datetime.fromtimestamp(mention_time))
+
+  # mention_timeが本初子午線の時刻で取得されるため 9時間(32400秒) + 3分
+  reply_time = 32400 + 180
 
   # 10分以内に来たリプライを10分ごとに返す
   if now_time - mention_time < reply_time:
     if re.search('\|.*\|', mention.text):
       try:
         # コード進行からwavを生成
-        genchord.generate_chord_from_text(mention.text, audiopath)
+        genchordwave.generate_chord_from_text(mention.text, audiopath, basedir)
 
         # コードテキストから動画用の画像を生成
         video_image_text = ''
@@ -47,7 +44,7 @@ for mention in status:
         for row in rows:
           video_image_text += f'|{row}|\n'
         print(video_image_text)
-        image_gen.chord_text_to_image(video_image_text)
+        image_gen.chord_text_to_image(video_image_text, basedir)
 
         # video を作成
         movie_gen.create_movie(imagepath, audiopath, outputpath)

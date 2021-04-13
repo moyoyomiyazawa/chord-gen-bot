@@ -4,8 +4,6 @@ import re
 from pychord import Chord, ChordProgression
 from synthesizer import Synthesizer, Waveform, Writer
 
-DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 def parse_chord_text(chord_text):
     rows = re.findall('\|(.*)\|', chord_text)
@@ -30,7 +28,7 @@ def convert_to_chord(chord_progression_list):
     return chords
 
 
-def generate_chord_from_text(chord_text, filename):
+def generate_chord_from_text(chord_text, filename, basedir):
     chord_progression_list = parse_chord_text(chord_text)
     chords = convert_to_chord(chord_progression_list)
 
@@ -47,4 +45,4 @@ def generate_chord_from_text(chord_text, filename):
             notes = chord.components_with_pitch(root_pitch=3)
             chord_waves.append(synthesizer.generate_chord(notes, note_length))
     writer = Writer()
-    writer.write_waves(os.path.join(DIR, filename), *chord_waves)
+    writer.write_waves(os.path.join(basedir, filename), *chord_waves)
