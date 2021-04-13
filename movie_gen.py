@@ -1,14 +1,15 @@
 from moviepy.editor import *
 
 
-def create_movie(imagepath, audiopath):
+# TODO: いまなっているコードをハイライトする機能を実装する
+def create_movie(imagepath, audiopath, outputpath):
   imageclip = ImageClip(imagepath)
   audioclip = AudioFileClip(audiopath)
   finalclip = imageclip.set_audio(audioclip).set_duration(audioclip.duration)
 
   # 動画を保存
   finalclip.write_videofile(
-    'output.mp4',
+    outputpath,
     codec='libx264',
     audio_codec='aac',
     audio_bitrate='128k',
@@ -17,4 +18,3 @@ def create_movie(imagepath, audiopath):
     fps=30,
     preset='ultrafast'
   )
-
