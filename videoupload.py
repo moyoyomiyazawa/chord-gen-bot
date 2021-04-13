@@ -17,10 +17,6 @@ CONSUMER_SECRET = config.CONSUMER_SECRET
 ACCESS_TOKEN = config.ACCESS_TOKEN
 ACCESS_TOKEN_SECRET = config.ACCESS_TOKEN_SECRET
 
-VIDEO_FILENAME = 'output.mp4'
-# VIDEO_FILENAME = 'test_video.mp4'
-
-
 oauth = OAuth1(CONSUMER_KEY,
   client_secret=CONSUMER_SECRET,
   resource_owner_key=ACCESS_TOKEN,
@@ -136,7 +132,7 @@ class VideoTweet(object):
     check_after_secs = self.processing_info['check_after_secs']
 
     print('Checking after %s seconds' % str(check_after_secs))
-    time.sleep(check_after_secs + 10)
+    time.sleep(check_after_secs)
 
     print('STATUS')
 
@@ -164,12 +160,9 @@ class VideoTweet(object):
     print(req.json())
 
 
-def upload():
-  videoTweet = VideoTweet(VIDEO_FILENAME)
+def upload(video_file_path):
+  videoTweet = VideoTweet(video_file_path)
   videoTweet.upload_init()
   videoTweet.upload_append()
   videoTweet.upload_finalize()
-  # videoTweet.tweet()
   return videoTweet.media_id
-
-# upload()
