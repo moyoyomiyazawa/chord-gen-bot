@@ -1,5 +1,5 @@
 import re
-import constants
+from lib import constants
 
 # コード進行テキストをパースして配列にして返す
 def parse_chord_text(chord_text: str) -> list:

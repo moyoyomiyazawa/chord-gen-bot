@@ -1,6 +1,5 @@
 import re
-from lib import is_include_chord_text
-import constants
+from lib import is_include_chord_text, constants
 
 # コード進行テキストを含む文字列から余計なものを取り除いて、整形する
 def format_chord_text(chord_text: str) -> str:

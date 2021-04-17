@@ -1,0 +1,7 @@
+.gitignore
+README.md
+*.mp4
+chord_image.png
+.env
+__pycache__
+.pytest_cache

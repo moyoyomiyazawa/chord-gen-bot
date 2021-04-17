@@ -4,3 +4,4 @@
 *.otf
 __pycache__
 chord_image.png
+.pytest_cache
