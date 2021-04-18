@@ -22,7 +22,7 @@ def test_正常系():
 |FM9|CM9 FM9|C|"""
 
 
-def test_異常系():
+def test_小節区切り線がない場合():
   s = 'F G C C @chordpanda'
   assert format_chord_text(s) == '|F G C C |'
 
@@ -31,6 +31,6 @@ def test_コードの間に空白がある場合():
   s = '| FM9 CM9 | Am7 Dm7 | @chordpanda'
   assert format_chord_text(s) == '| FM9 CM9 | Am7 Dm7 |'
 
-def test_コードの間に空白がある場合():
+def test_文章の中にコード進行が入っている場合():
   s = 'この曲のFM9→E7の次にAm7→C7に行くとこ良いよね～'
   assert format_chord_text(s) == '|FM9|E7|Am7|C7|'

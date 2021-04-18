@@ -13,7 +13,7 @@ def create_movie(imagepath, audiopath, outputpath):
     codec='libx264',
     audio_codec='aac',
     audio_bitrate='128k',
-    temp_audiofile='temp-audio.m4a',
+    temp_audiofile='/tmp/temp-audio.m4a',
     remove_temp=True,
     fps=30,
     preset='ultrafast'

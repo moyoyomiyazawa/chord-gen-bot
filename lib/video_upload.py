@@ -2,7 +2,7 @@
 import os
 import sys
 import time
-import config
+from lib import config
 
 import json
 import requests
@@ -145,19 +145,6 @@ class VideoTweet(object):
 
     self.processing_info = req.json().get('processing_info', None)
     self.check_status()
-
-
-  def tweet(self):
-    '''
-    Publishes Tweet with attached video
-    '''
-    request_data = {
-      'status': 'I just uploaded a video with the @TwitterAPI.',
-      'media_ids': self.media_id
-    }
-
-    req = requests.post(url=POST_TWEET_URL, data=request_data, auth=oauth)
-    print(req.json())
 
 
 def upload(video_file_path):
